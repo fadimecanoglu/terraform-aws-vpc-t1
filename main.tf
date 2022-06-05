@@ -78,7 +78,7 @@ resource "aws_eip" "nat" {
 
 resource "aws_nat_gateway" "example" {
   count         = var.enable_nat_gateway ? 1 : 0
-  allocation_id = aws_eip.nat.id
+  allocation_id = aws_eip.nat[0].id
   subnet_id     = aws_subnet.public1.id
   depends_on    = [aws_internet_gateway.gw]
   tags          = var.tags
