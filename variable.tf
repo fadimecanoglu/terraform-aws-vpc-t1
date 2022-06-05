@@ -27,7 +27,6 @@ variable "public_subnet3" {
   type        = string
   default     = ""
 }
-
 variable "private_subnet1" {
   description = "Please provide subnet CIDR block"
   type        = string
@@ -42,4 +41,9 @@ variable "private_subnet3" {
   description = "Please provide subnet CIDR block"
   type        = string
   default     = ""
+}
+variable "enable_nat_gateway" {
+  description = "Should be true if you want to provision NAT Gateways for each of your private networks"
+  type        = bool
+  default     = false
 }
