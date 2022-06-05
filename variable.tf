@@ -38,7 +38,7 @@ variable "private_subnet2" {
   default     = ""
 }
 variable "private_subnet3" {
-  description = "Please provide subnet CIDR block"
+  description = "Please provide subnet CIDR block for private_subnet3"
   type        = string
   default     = ""
 }

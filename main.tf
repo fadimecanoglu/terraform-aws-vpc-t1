@@ -5,6 +5,7 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
   tags                 = var.tags
 }
+
 resource "aws_subnet" "public1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet1
@@ -84,7 +85,6 @@ resource "aws_nat_gateway" "this" {
   tags          = var.tags
 }
 
-
 resource "aws_route_table" "private" {
   count  = var.enable_nat_gateway ? 1 : 0
   vpc_id = aws_vpc.main.id
@@ -101,15 +101,11 @@ resource "aws_route_table_association" "private1" {
   subnet_id      = aws_subnet.private1.id
   route_table_id = aws_route_table.private[0].id
 }
-
-
 resource "aws_route_table_association" "private2" {
   count          = var.enable_nat_gateway ? 1 : 0
   subnet_id      = aws_subnet.private2.id
   route_table_id = aws_route_table.private[0].id
 }
-
-
 resource "aws_route_table_association" "private3" {
   count          = var.enable_nat_gateway ? 1 : 0
   subnet_id      = aws_subnet.private3.id
