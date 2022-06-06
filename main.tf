@@ -1,3 +1,12 @@
+data "aws_availability_zones" "all" {}
+
+locals {
+  az1 = data.aws_availability_zones.all.names[0]
+  az2 = data.aws_availability_zones.all.names[1]
+  az3 = data.aws_availability_zones.all.names[2]
+}
+
+
 resource "aws_vpc" "main" {
   cidr_block           = var.cidr_block
   instance_tenancy     = "default"
@@ -7,38 +16,45 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public1" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public_subnet1
-  tags                    = var.tags
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.public_subnet1
+  availability_zone = local.az1
+  tags              = var.tags
+
   map_public_ip_on_launch = true
 }
 resource "aws_subnet" "public2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet2
+  availability_zone       = local.az2
   tags                    = var.tags
   map_public_ip_on_launch = true
 }
 resource "aws_subnet" "public3" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnet3
+  availability_zone       = local.az3
   tags                    = var.tags
   map_public_ip_on_launch = true
 }
 resource "aws_subnet" "private1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.private_subnet1
+  availability_zone       = local.az1
   tags                    = var.tags
   map_public_ip_on_launch = false
 }
 resource "aws_subnet" "private2" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.private_subnet2
+  availability_zone       = local.az2
   tags                    = var.tags
   map_public_ip_on_launch = false
 }
 resource "aws_subnet" "private3" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.private_subnet3
+  availability_zone       = local.az3
   tags                    = var.tags
   map_public_ip_on_launch = false
 }
