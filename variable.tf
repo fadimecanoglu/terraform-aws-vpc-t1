@@ -47,3 +47,9 @@ variable "enable_nat_gateway" {
   type        = bool
   default     = false
 }
+
+variable "enableDnsHostnames" {
+  description = "enableDnsHostnames ? "
+  type        = bool
+  default     = true
+}
