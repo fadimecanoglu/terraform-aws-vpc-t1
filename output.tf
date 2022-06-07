@@ -19,3 +19,13 @@ output "private_subnet2" {
 output "private_subnet3" {
   value = aws_subnet.private3.id
 }
+
+output "az1" {
+  value = data.aws_availability_zones.all.names[0]
+}
+output "az2" {
+  value = data.aws_availability_zones.all.names[1]
+}
+output "az3" {
+  value = data.aws_availability_zones.all.names[2]
+}
