@@ -104,26 +104,33 @@ resource "aws_nat_gateway" "this" {
 resource "aws_route_table" "private" {
   count  = var.enable_nat_gateway ? 1 : 0
   vpc_id = aws_vpc.main.id
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.this[0].id
   }
+
   tags = var.tags
 }
 
+resource "aws_route_table" "private2" {
+  count  = var.enable_nat_gateway ? 0 : 1
+  vpc_id = aws_vpc.main.id
+  tags = var.tags
+}
 
 resource "aws_route_table_association" "private1" {
-  count          = var.enable_nat_gateway ? 1 : 0
   subnet_id      = aws_subnet.private1.id
-  route_table_id = aws_route_table.private[0].id
+  route_table_id = var.enable_nat_gateway ? aws_route_table.private[0].id :aws_route_table.private2[0].id
 }
 resource "aws_route_table_association" "private2" {
-  count          = var.enable_nat_gateway ? 1 : 0
+  #count          = var.enable_nat_gateway ? 1 : 0
   subnet_id      = aws_subnet.private2.id
-  route_table_id = aws_route_table.private[0].id
+  route_table_id = var.enable_nat_gateway ? aws_route_table.private[0].id :aws_route_table.private2[0].id
 }
 resource "aws_route_table_association" "private3" {
-  count          = var.enable_nat_gateway ? 1 : 0
+  #count          = var.enable_nat_gateway ? 1 : 0
   subnet_id      = aws_subnet.private3.id
-  route_table_id = aws_route_table.private[0].id
+  route_table_id = var.enable_nat_gateway ? aws_route_table.private[0].id :aws_route_table.private2[0].id
 }
+
